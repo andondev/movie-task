@@ -2,6 +2,11 @@
 
 An interactive movie dashboard built with React that allows users to search for movies, view details, and manage their favorites.
 
+
+## Live Demo
+
+The live application: [Movie Dashboard](https://movie.glauciastech.com/)
+
 ## Features
 
 ### Movie Search
@@ -108,7 +113,7 @@ export const getMovieById = async (id) => {
 };
 ```
 
-## Component Usage
+## Structural Components Usage
 
 ### Layout Component
 ```jsx
@@ -129,31 +134,13 @@ function Layout({ children }) {
 }
 ```
 
-### MovieSkeleton Component
-```jsx
-// Imitates loading state with the actual UI
-function MovieSkeleton() {
-  return (
-    <Grid container spacing={3}>
-      {[1, 2, 3, 4, 5, 6].map((item) => (
-        <Grid item xs={12} sm={6} md={4} key={item}>
-          <Card>
-            <Skeleton variant="rectangular" height={400} />
-            {/* ... */}
-          </Card>
-        </Grid>
-      ))}
-    </Grid>
-  );
-}
-```
 
 ## Available Scripts
 
 - `npm run dev` - Start development server (Vite)
 - `npm run build` - Build for production
 - `npm run preview` - Preview production build
-- `npm run lint` - Run ESLint
+- `npm run lint` - Run ESLint ( not enought time to implement testing)
 
 ## Error Handling
 
@@ -206,7 +193,7 @@ npm install
 
 2. Create `.env` file:
 ```env
-VITE_OMDB_API_KEY=your_api_key_here
+VITE_OMDB_API_KEY=your_api_key_here ( check the email please )
 ```
 
 3. Start development server:
@@ -214,13 +201,79 @@ VITE_OMDB_API_KEY=your_api_key_here
 npm run dev
 ```
 
-## Contributing
 
-1. Fork the repository
-2. Create your feature branch
-3. Commit your changes
-4. Push to the branch
-5. Open a Pull Request
+## Technical Implementation
+
+### Custom Hooks
+1. **Theme Management**:
+```jsx
+// ThemeContext.jsx
+export const useTheme = () => {
+  const context = useContext(ThemeContext);
+  if (!context) {
+    throw new Error('useTheme must be used within a ThemeProvider');
+  }
+  return context;
+};
+```
+
+2. **Favorites Management**:
+```jsx
+// FavoritesContext.jsx
+export const useFavorites = () => {
+  const context = useContext(FavoritesContext);
+  if (!context) {
+    throw new Error('useFavorites must be used within a FavoritesProvider');
+  }
+  return context;
+};
+```
+
+### Context Implementations
+1. **Favorites Context**:
+```jsx
+const [favorites, setFavorites] = useState(() => {
+  const savedFavorites = localStorage.getItem('movieFavorites');
+  return savedFavorites ? JSON.parse(savedFavorites) : [];
+});
+```
+
+2. **Theme Context**:
+```jsx
+const [darkMode, setDarkMode] = useState(() => {
+  const savedMode = localStorage.getItem('darkMode');
+  return savedMode ? JSON.parse(savedMode) : false;
+});
+```
+
+### Performance Optimizations
+- Debounced search implementation:
+```jsx
+const debouncedSearch = useCallback(
+  debounce(async (searchQuery) => {
+    // Implementation
+  }, 500),
+  []
+);
+```
+
+### Loading States
+- Skeleton loading implementation:
+```jsx
+function MovieSkeleton() {
+  return (
+    <Grid container spacing={3}>
+      {[1, 2, 3, 4, 5, 6].map((item) => (
+        <Skeleton 
+          variant="rectangular" 
+          height={400}
+          animation="wave"
+        />
+      ))}
+    </Grid>
+  );
+}
+```
 
 ## License
 
