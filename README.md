@@ -60,7 +60,7 @@ export function ThemeProvider({ children }) {
 - **Material-UI 6.1.10** - Component library and theming
 - **Axios 1.7.9** - API requests
 - **Lodash.debounce 4.0.8** - Search optimization
-- **React Query 3.39.3** - Data fetching ( wasn't not necessary to be used so i do not used due AXIOS )
+- **React Query 3.39.3** - Data fetching ( wasn't not necessary to be used due the AXIOS )
 - **Local Storage** - Data persistence
 
 ## Project Structure
